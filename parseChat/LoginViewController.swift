@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  LoginViewController.swift
 //  parseChat
 //
 //  Created by Godwin Pang on 2/22/18.
@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Parse
 
-class ViewController: UIViewController {
+class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
