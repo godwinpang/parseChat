@@ -22,7 +22,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         chatTableView.dataSource = self
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ChatViewController.refresh), userInfo: nil, repeats: true)
         chatTableView.rowHeight = UITableViewAutomaticDimension
-        chatTableView.estimatedRowHeight = 50
+        chatTableView.estimatedRowHeight = 100
         // Do any additional setup after loading the view.
     }
 
@@ -48,6 +48,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func sendMessage(_ sender: Any) {
         let chatMessage = PFObject(className: "Message")
         chatMessage["text"] = messageInputField.text ?? ""
+        chatMessage["user"] = PFUser.current()
         chatMessage.saveInBackground { (success, error) in
             if success {
                 self.messageInputField.text = ""
@@ -59,16 +60,15 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @objc func refresh(){
         let query = PFQuery(className: "Message")
-        query.whereKeyExists("text").includeKey("user")
+        query.includeKey("user")
         query.addDescendingOrder("createdAt")
-        query.findObjectsInBackground { (objects: [PFObject]?, error: Error?) -> Void in
+        query.findObjectsInBackground { (messages: [PFObject]?, error: Error?) -> Void in
             if error == nil {
-                self.messages = objects
+                self.messages = messages
                 self.chatTableView.reloadData()
             } else {
                 print("\(String(describing: error?.localizedDescription))")
             }
-            
         }
     }
     
