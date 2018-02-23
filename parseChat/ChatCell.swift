@@ -11,9 +11,11 @@ import Parse
 
 class ChatCell: UITableViewCell {
 
+    @IBOutlet weak var messageLabel: UILabel!
+    
     var message: PFObject! {
-        didSet{
-            
+        didSet {
+            messageLabel.text = message.object(forKey: "text") as? String
         }
     }
     override func awakeFromNib() {

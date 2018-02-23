@@ -21,6 +21,8 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
         chatTableView.delegate = self
         chatTableView.dataSource = self
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ChatViewController.refresh), userInfo: nil, repeats: true)
+        chatTableView.rowHeight = UITableViewAutomaticDimension
+        chatTableView.estimatedRowHeight = 50
         // Do any additional setup after loading the view.
     }
 
@@ -39,6 +41,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChatCell", for: indexPath) as! ChatCell
+        cell.message = self.messages?[indexPath.row]
         return cell
     }
     
